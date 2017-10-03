@@ -1,0 +1,35 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.1'
+}
+
+repositories {
+    jcenter()
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group = 'io.github.dwclark'
+version = '0.1.0'
+
+dependencies {
+    compile 'org.apache.ignite:ignite-core:2.2.0'
+    compile 'org.codehaus.groovy:groovy-all:2.4.12:indy'
+}
+
+compileGroovy {
+    groovyOptions.optimizationOptions.indy = true
+}
+
+mainClassName = 'io.github.dwclark.ignite.Server'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
