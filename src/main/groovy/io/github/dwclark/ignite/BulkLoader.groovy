@@ -34,7 +34,13 @@ class BulkLoader extends CacheStoreAdapter<Object,Object> {
         file.withInputStream { InputStream is ->
             DataInputStream dataIs = new DataInputStream(is);
             while(is.available() > 0) {
-                closure.apply(dataIs.readInt(), dataIs.readInt());
+                int first = dataIs.readInt();
+                int[] ary = new int[100];
+                for(int i = 0; i < 100; ++i) {
+                    ary[i] = dataIs.readInt();
+                }
+                
+                closure.apply(first, ary)
             }
         }
 

@@ -48,13 +48,16 @@ class GenerateRandom {
 
     GenerateRandom computeRandom() {
         Random r = ThreadLocalRandom.current();
-        for(int i = 0; i < 10_000_000; ++i) {
+        for(int i = 0; i < 100_000; ++i) {
             int partition = affinityFunction.partition(i);
             DataOutputStream os = streams.get(partition);
             os.writeInt(i);
-            os.writeInt(r.nextInt());
-            if(i % 100_000 == 0) {
-                println("Write record ${i}");
+            for(int j = 0; j < 100; ++j) {
+                os.writeInt(r.nextInt());
+            }
+            
+            if(i % 1_000 == 0) {
+                println("Just wrote record ${i}");
             }
         }
 
